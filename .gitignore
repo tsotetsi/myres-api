@@ -90,3 +90,9 @@ ENV/
 
 #IDE File.
 .idea
+
+#Dev Settings
+dev/
+
+#DB File
+db.sqlite3
