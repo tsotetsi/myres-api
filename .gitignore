@@ -88,11 +88,17 @@ ENV/
 # Rope project settings
 .ropeproject
 
-#IDE File.
+# IDE File.
 .idea
 
-#Dev Settings
+# Dev Settings
 dev/
 
-#DB File
+# DB File
 db.sqlite3
+
+# Tox generated files.
+junit-py27.xml
+junit-py34.xml
+junit-py27-coverage.xml
+junit-py34-coverage.xml
