@@ -1,6 +1,7 @@
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from datetime import timedelta
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -18,9 +19,12 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = (
     'myres',
     'project',
-    'api',
+    'myres.apps.api',
 
     'authtools',
+    'rest_framework',
+    'bo_drf.api_templates',
+    'rest_framework_jwt',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -44,7 +48,29 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.security.SecurityMiddleware',
 )
 
-ROOT_URLCONF = 'project.urls'
+# djangorestframework
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+#        'bo_drf.auth.jwt.JWTAuth',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    ),
+}
+
+# djangorestframework-jwt
+JWT_AUTH = {
+#    'JWT_PAYLOAD_HANDLER': 'bo_drf.auth.jwt.token_payload_handler',
+#    'JWT_RESPONSE_PAYLOAD_HANDLER': 'myres.apps.api.utils.login_response_handler',
+    'JWT_SECRET_KEY': SECRET_KEY,
+    'JWT_LEEWAY': 10,
+    'JWT_EXPIRATION_DELTA': timedelta(hours=8),
+}
+
+ROOT_URLCONF = 'myres.urls'
 
 TEMPLATES = [
     {

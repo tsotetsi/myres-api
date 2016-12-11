@@ -10,6 +10,7 @@ setup(
     install_requires=[
         'Django',
         'djangorestframework',
+        'djangorestframework-jwt',
     ],
     package_dir={'': 'src'},
     packages=find_packages('src'),
