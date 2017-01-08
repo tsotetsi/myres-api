@@ -23,8 +23,14 @@ INSTALLED_APPS = (
 
     'authtools',
     'rest_framework',
+    'rest_framework.authtoken',
     'bo_drf.api_templates',
     'rest_framework_jwt',
+    'rest_auth',
+
+    'allauth',
+    'allauth.account',
+    'rest_auth.registration',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -68,6 +74,16 @@ JWT_AUTH = {
     'JWT_SECRET_KEY': SECRET_KEY,
     'JWT_LEEWAY': 10,
     'JWT_EXPIRATION_DELTA': timedelta(hours=8),
+}
+
+REST_USE_JWT = True
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'myres.apps.api.serializers.RegisterSerializer',
 }
 
 ROOT_URLCONF = 'myres.urls'
