@@ -22,6 +22,7 @@ class User(AbstractEmailUser, TimeStampedModel):
     gender = EnumField(Gender, max_length=12, null=True)
     mobile_number = models.CharField(max_length=16, validators=[E164Validator])
 
+    USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name', 'surname', 'mobile_number']
 
     def __str__(self):

@@ -11,7 +11,7 @@ from myres.models import User, Flat, Application, Residence, ResidenceUser, Stud
 
 class LoginSerializer(JSONWebTokenSerializer):
     email = serializers.EmailField()
-    password = serializers.CharField(write_only=True)
+    password = serializers.CharField(write_only=True, style={'input_type': 'password'})
 
     def __init__(self, *args, **kwargs):
         # Skip the direct parent `__init__` as it resets the fields.
@@ -23,8 +23,8 @@ class RegisterSerializer(serializers.Serializer):
     surname = serializers.CharField(max_length=100)
     mobile_number = serializers.CharField(max_length=16, validators=[E164Validator])
     email = serializers.EmailField(required=True)
-    password1 = serializers.CharField(write_only=True)
-    password2 = serializers.CharField(write_only=True)
+    password1 = serializers.CharField(write_only=True, style={'input_type': 'password'})
+    password2 = serializers.CharField(write_only=True, style={'input_type': 'password'})
 
     def validate_email(self, email):
         email = get_adapter().clean_email(email)
@@ -50,7 +50,7 @@ class RegisterSerializer(serializers.Serializer):
             'surname': self.validated_data.get('surname', ''),
             'mobile_number': self.validated_data.get('mobile_number', ''),
             'email': self.validated_data.get('email', ''),
-            'password1': self.validated_data.get('password1')
+            'password': self.validated_data.get('password1')
         }
 
     def save(self, request):
@@ -67,7 +67,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'name', 'surname', 'gender', 'mobile_number')
+        fields = ('id', 'email', 'name', 'surname', 'gender', 'mobile_number')
 
 
 class ResidenceSerializer(serializers.ModelSerializer):
@@ -104,3 +104,10 @@ class ApplicationSerializer(serializers.Serializer):
         model = Application
         fields = ('flat', 'applicant', 'status', 'residence')
 
+
+class UserDetailsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ('id', 'name', 'surname', 'gender', 'mobile_number')
+        read_only_fields = ('email', )

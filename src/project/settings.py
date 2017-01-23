@@ -1,7 +1,6 @@
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-from datetime import timedelta
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -14,7 +13,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-# Application definition
+# Application definition.
 
 INSTALLED_APPS = (
     'myres',
@@ -54,7 +53,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.security.SecurityMiddleware',
 )
 
-# djangorestframework
+# djangorestframework.
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
@@ -62,18 +61,8 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
-#        'bo_drf.auth.jwt.JWTAuth',
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ),
-}
-
-# djangorestframework-jwt
-JWT_AUTH = {
-#    'JWT_PAYLOAD_HANDLER': 'bo_drf.auth.jwt.token_payload_handler',
-#    'JWT_RESPONSE_PAYLOAD_HANDLER': 'myres.apps.api.utils.login_response_handler',
-    'JWT_SECRET_KEY': SECRET_KEY,
-    'JWT_LEEWAY': 10,
-    'JWT_EXPIRATION_DELTA': timedelta(hours=8),
 }
 
 REST_USE_JWT = True
@@ -82,8 +71,15 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 
+# django-rest-auth serializer has a username field. User custom serializer.
 REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'myres.apps.api.serializers.RegisterSerializer',
+}
+
+# django-rest-auth serializer has a username field. User custom serializer.
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'myres.apps.api.serializers.UserDetailsSerializer',
+    'LOGIN_SERIALIZER': 'myres.apps.api.serializers.LoginSerializer'
 }
 
 ROOT_URLCONF = 'myres.urls'
