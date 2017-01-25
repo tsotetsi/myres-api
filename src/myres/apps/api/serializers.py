@@ -19,10 +19,15 @@ class LoginSerializer(JSONWebTokenSerializer):
 
 
 class RegisterSerializer(serializers.Serializer):
+    GENDER_CHOICES = (
+        ('1', 'Male'),
+        ('2', 'Female'),
+    )
     name = serializers.CharField(max_length=100)
     surname = serializers.CharField(max_length=100)
     mobile_number = serializers.CharField(max_length=16, validators=[E164Validator])
     email = serializers.EmailField(required=True)
+    gender = serializers.ChoiceField(required=True, choices=GENDER_CHOICES)
     password1 = serializers.CharField(write_only=True, style={'input_type': 'password'})
     password2 = serializers.CharField(write_only=True, style={'input_type': 'password'})
 
@@ -42,7 +47,10 @@ class RegisterSerializer(serializers.Serializer):
         return attrs
 
     def custom_signup(self, request, user):
-        pass
+        user.name = self.validated_data['name']
+        user.surname = self.validated_data['surname']
+        user.mobile_number = self.validated_data['mobile_number']
+        user.gender = self.validated_data['gender']
 
     def get_cleaned_data(self):
         return {
@@ -60,6 +68,7 @@ class RegisterSerializer(serializers.Serializer):
         adapter.save_user(request, user, self)
         self.custom_signup(request, user)
         setup_user_email(request, user, [])
+        user.save()
         return user
 
 

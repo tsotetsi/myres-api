@@ -23,7 +23,6 @@ INSTALLED_APPS = (
     'authtools',
     'rest_framework',
     'rest_framework.authtoken',
-    'bo_drf.api_templates',
     'rest_framework_jwt',
     'rest_auth',
 
