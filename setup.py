@@ -13,6 +13,7 @@ setup(
         'djangorestframework-jwt',
         'django-rest-auth',
         'django-allauth',
+        'django-authtools',
         'django-model-utils',
         'django-enumfields',
     ],
