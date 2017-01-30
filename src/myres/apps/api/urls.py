@@ -5,7 +5,7 @@ from myres.apps.api.views import UserView, ResidenceView, StudentView, Applicati
 
 
 router = routers.DefaultRouter()
-router.register(r'login', LoginView.as_view(), 'login')
+
 router.register(r'users', UserView, base_name='users')
 router.register(r'residences', ResidenceView, base_name='residences')
 router.register(r'students', StudentView, base_name='students')
