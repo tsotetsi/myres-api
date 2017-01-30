@@ -1,7 +1,6 @@
 from uuid import uuid4
 
 from django.db import models
-from django.contrib.sites.models import Site
 from authtools.models import AbstractEmailUser
 from model_utils import Choices
 from model_utils.models import TimeStampedModel
