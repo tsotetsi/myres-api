@@ -27,6 +27,9 @@ class User(AbstractEmailUser, TimeStampedModel):
     def __str__(self):
         return self.email
 
+    def get_full_name(self):
+        return '{} {}'.format(self.surname, self.name)
+
 
 class FlatType(models.Model):
     """

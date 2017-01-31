@@ -1,7 +1,7 @@
 from rest_framework_jwt.views import JSONWebTokenAPIView
 from rest_framework import permissions, mixins, viewsets
 
-from myres.models import User, Residence, Student
+from myres.models import User, Residence, Student, Application, Flat
 
 from .serializers import LoginSerializer, UserProfileSerializer, ResidenceSerializer, StudentSerializer,\
                          ApplicationSerializer, FlatSerializer
@@ -48,12 +48,15 @@ class StudentView(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.Gen
         return Student.objects.all()
 
 
-class ApplicationView(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+class ApplicationView(mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.CreateModelMixin, viewsets.GenericViewSet):
     """
     View to display Applications.
     """
     permission_classes = (permissions.IsAuthenticated, )
     serializer_class = ApplicationSerializer
+
+    def get_queryset(self):
+        return Application.objects.all()
 
 
 class FlatView(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
@@ -62,3 +65,6 @@ class FlatView(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.Generi
     """
     permission_classes = (permissions.IsAuthenticated, )
     serializer_class = FlatSerializer
+
+    def get_queryset(self):
+        return Flat.objects.all()

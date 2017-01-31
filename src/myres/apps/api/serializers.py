@@ -108,6 +108,10 @@ class FlatSerializer(serializers.ModelSerializer):
 
 
 class ApplicationSerializer(serializers.Serializer):
+    full_name = serializers.CharField(source='applicant.user.get_full_name', read_only=True)
+    gender = serializers.CharField(source='applicant.user.gender', read_only=True)
+    residence = serializers.CharField(source='applicant.user.__residence', read_only=True)
+    flat = serializers.CharField(max_length=10, required=True)
 
     class Meta:
         model = Application
