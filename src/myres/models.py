@@ -49,10 +49,13 @@ class ResidenceType(models.Model):
     """
     Model to specify the type of residence.
 
-    Examples are Male, Female Postgraduates.
+    Examples are Male, Female or Postgraduates etc.
     """
     name = models.CharField(max_length=32)
     description = models.TextField()
+
+    def __str__(self):
+        return self.name
 
 
 class Residence(TimeStampedModel):
@@ -61,7 +64,7 @@ class Residence(TimeStampedModel):
     """
     name = models.CharField(max_length=100)
     email = models.EmailField()
-    type = models.ForeignKey(ResidenceType)
+    type = models.ForeignKey(ResidenceType, on_delete=models.CASCADE)
     capacity = models.PositiveIntegerField()
     address = models.TextField()
     phone_number = models.CharField(max_length=16, validators=[E164Validator], blank=True, null=True)
@@ -74,8 +77,8 @@ class ResidenceUser(TimeStampedModel):
     """
     Model to link user with the residence.
     """
-    user = models.ForeignKey(User)
-    residence = models.ForeignKey(Residence)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    residence = models.ForeignKey(Residence, on_delete=models.CASCADE)
 
     class Meta:
         unique_together = (('user', 'residence'),)
@@ -88,13 +91,27 @@ class Flat(TimeStampedModel):
     """
     Model to specify a Flat.
     """
-    residence = models.ForeignKey(Residence)
+    residence = models.ForeignKey(Residence, on_delete=models.CASCADE)
     number = models.CharField(max_length=10, unique=True)
-    type = models.ForeignKey(FlatType)
+    type = models.ForeignKey(FlatType, on_delete=models.CASCADE)
     info = models.TextField(verbose_name="Additional [optional] information")
 
     def __str__(self):
         return '{} at {}'.format(self.number, self.residence.name)
+
+
+class ResidenceFlat(models.Model):
+    """
+    Model to represent relationship between resident and flat.
+    """
+    residence = models.ForeignKey(Residence, on_delete=models.CASCADE)
+    flat = models.ForeignKey(Flat, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = True
+
+    def __str__(self):
+        return '{} at {} resident'.format(self.flat.number, self.residence.name)
 
 
 class Student(TimeStampedModel):
@@ -103,7 +120,7 @@ class Student(TimeStampedModel):
 
     Students will be distinguished based on their student numbers
     """
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     number = models.CharField(verbose_name="Student Number", max_length=54)
 
     def __str__(self):
@@ -116,7 +133,7 @@ class Application(TimeStampedModel):
     """
     STATUS = Choices("NEW", "REVIEW", "APPROVED", "DECLINED", "DELETED")
 
-    flat = models.ForeignKey(Flat)
+    flat = models.ForeignKey(Flat, on_delete=models.CASCADE)
     applicant = models.OneToOneField(Student)
     status = StatusField(default=STATUS.NEW)
     residence = models.ManyToManyField(Residence)
