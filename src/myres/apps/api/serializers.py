@@ -108,9 +108,9 @@ class FlatSerializer(serializers.ModelSerializer):
 
 
 class ApplicationSerializer(serializers.Serializer):
-    full_name = serializers.CharField(source='applicant.user.get_full_name', read_only=True)
-    gender = serializers.CharField(source='applicant.user.gender', read_only=True)
-    residence = serializers.CharField(source='applicant.user.__residence', read_only=True)
+    full_name = serializers.ReadOnlyField(source='applicant.user.get_full_name')
+    gender = serializers.ReadOnlyField(source='applicant.user.gender')
+    residence = serializers.ReadOnlyField(source='applicant.user.__residence')
     flat = serializers.CharField(max_length=10, required=True)
 
     class Meta:
