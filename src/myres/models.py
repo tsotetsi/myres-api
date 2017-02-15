@@ -108,7 +108,7 @@ class ResidenceFlat(models.Model):
     flat = models.ForeignKey(Flat, on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = True
+        unique_together = (('residence', 'flat'),)
 
     def __str__(self):
         return '{} at {} resident'.format(self.flat.number, self.residence.name)
