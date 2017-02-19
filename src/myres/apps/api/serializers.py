@@ -6,7 +6,8 @@ from rest_framework import serializers
 from allauth.account.adapter import get_adapter, email_address_exists
 
 from myres.validators import E164Validator
-from myres.models import User, Flat, Application, Residence, ResidenceUser, Student
+from myres.models import User, Flat, Application, Residence, ResidenceUser, Student, OrganizationResidence, \
+                         OrganizationUser
 
 
 class LoginSerializer(JSONWebTokenSerializer):
@@ -91,6 +92,20 @@ class ResidenceUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = ResidenceUser
         fields = ('user', 'residence')
+
+
+class OrganizationResidenceSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = OrganizationResidence
+        fields = ('organization', 'residence')
+
+
+class OrganizationUserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = OrganizationUser
+        fields = ('user', 'organization')
 
 
 class StudentSerializer(serializers.ModelSerializer):

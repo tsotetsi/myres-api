@@ -47,12 +47,38 @@ class FlatType(models.Model):
 
 class ResidenceType(models.Model):
     """
-    Model to specify the type of residence.
+    Model to specify the type of Residence.
 
     Examples are Male, Female or Postgraduates etc.
     """
     name = models.CharField(max_length=32)
     description = models.TextField()
+
+    def __str__(self):
+        return self.name
+
+
+class OrganizationType(models.Model):
+    """
+    Model to specify the type of Organization.
+
+    Examples are University, Hostel, Student Accommodation.
+    """
+    name = models.CharField(max_length=150)
+    description = models.TextField()
+
+    def __str__(self):
+        return self.name
+
+
+class Organization(TimeStampedModel):
+    """
+    Model to specify an organization.
+    """
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    address = models.TextField()
+    phone_number = models.CharField(max_length=16, validators=[E164Validator], blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -73,9 +99,37 @@ class Residence(TimeStampedModel):
         return self.name
 
 
+class OrganizationResidence(TimeStampedModel):
+    """
+    Model to link Organization with the Residence.
+    """
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    residence = models.ForeignKey(Residence, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = (('organization', 'residence'),)
+
+    def __str__(self):
+        return '{} at {}'.format(self.residence.name, self.organization.name)
+
+
+class OrganizationUser(TimeStampedModel):
+    """
+    Model to link User with an Organization.
+    """
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = (('organization', 'user'),)
+
+    def __str__(self):
+        return '{} at {}'.format(self.user.get_full_name(), self.organization.name)
+
+
 class ResidenceUser(TimeStampedModel):
     """
-    Model to link user with the residence.
+    Model to link User with the Residence.
     """
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     residence = models.ForeignKey(Residence, on_delete=models.CASCADE)
@@ -102,7 +156,7 @@ class Flat(TimeStampedModel):
 
 class ResidenceFlat(models.Model):
     """
-    Model to represent relationship between resident and flat.
+    Model to represent relationship between Resident and flat.
     """
     residence = models.ForeignKey(Residence, on_delete=models.CASCADE)
     flat = models.ForeignKey(Flat, on_delete=models.CASCADE)

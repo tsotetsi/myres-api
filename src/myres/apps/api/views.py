@@ -1,10 +1,11 @@
 from rest_framework_jwt.views import JSONWebTokenAPIView
 from rest_framework import permissions, mixins, viewsets
 
-from myres.models import User, Residence, Student, Application, Flat
+from myres.models import User, Residence, Student, Application, Flat, OrganizationResidence, OrganizationUser
 
 from .serializers import LoginSerializer, UserProfileSerializer, ResidenceSerializer, StudentSerializer,\
-                         ApplicationSerializer, FlatSerializer
+                         ApplicationSerializer, FlatSerializer, OrganizationResidenceSerializer, \
+                         OrganizationUserSerializer
 
 
 class LoginView(JSONWebTokenAPIView):
@@ -26,6 +27,30 @@ class UserView(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.Generi
         return User.objects.all()
 
 
+class OrganizationUserView(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+    """
+    View to display Organization Users.
+    """
+    permission_classes = (permissions.IsAuthenticated, )
+    serializer_class = OrganizationUserSerializer
+
+    def get_queryset(self):
+        organization = self.request.query_params.get('organization', None)
+        return OrganizationUser.objects.filter(organization=organization)
+
+
+class OrganizationResidenceView(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+    """
+    View to display Organization Residence.
+    """
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = OrganizationResidenceSerializer
+
+    def get_queryset(self):
+        residence = self.request.query_params.get('residence', None)
+        return OrganizationResidence.objects.filter(residence=residence)
+
+
 class ResidenceView(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     """
     View to display Residence.
@@ -34,7 +59,8 @@ class ResidenceView(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.G
     serializer_class = ResidenceSerializer
 
     def get_queryset(self):
-        return Residence.objects.all()
+        residence = self.request.query_params.get('residence', None)
+        return Residence.objects.filter(residence=residence)
 
 
 class StudentView(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
@@ -45,7 +71,8 @@ class StudentView(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.Gen
     serializer_class = StudentSerializer
 
     def get_queryset(self):
-        return Student.objects.all()
+        student_number = self.request.query_params.get('student_number', None)
+        return Student.objects.filter(number=student_number)
 
 
 class ApplicationView(mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.CreateModelMixin, viewsets.GenericViewSet):
@@ -56,7 +83,8 @@ class ApplicationView(mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.C
     serializer_class = ApplicationSerializer
 
     def get_queryset(self):
-        return Application.objects.all()
+        residence = self.request.query_params.get('residence', None)
+        return Application.objects.filter(residence=residence)
 
 
 class FlatView(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
@@ -67,4 +95,5 @@ class FlatView(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.Generi
     serializer_class = FlatSerializer
 
     def get_queryset(self):
-        return Flat.objects.all()
+        residence = self.request.query_params.get('residence', None)
+        return Flat.objects.filter(residence=residence)

@@ -1,12 +1,7 @@
 from django.contrib import admin
 
 from myres.models import User, FlatType, ResidenceType, Residence, ResidenceUser, Flat, ResidenceFlat, Student, \
-                         Application
-
-
-@admin.register(User)
-class UserAdmin(admin.ModelAdmin):
-    pass
+                         Application, Organization, OrganizationResidence, OrganizationUser
 
 
 @admin.register(FlatType)
@@ -14,8 +9,28 @@ class FlatTypeAdmin(admin.ModelAdmin):
     pass
 
 
+@admin.register(User)
+class UserAdmin(admin.ModelAdmin):
+    pass
+
+
 @admin.register(ResidenceType)
 class ResidenceTypeAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Organization)
+class OrganizationAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(OrganizationResidence)
+class OrganizationResidenceAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(OrganizationUser)
+class OrganizationUserAdmin(admin.ModelAdmin):
     pass
 
 
