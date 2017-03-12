@@ -36,7 +36,8 @@ class OrganizationUserAdmin(admin.ModelAdmin):
 
 @admin.register(Residence)
 class ResidenceAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('name', 'type', 'capacity', 'email', 'phone_number',)
+    list_filter = ('type',)
 
 
 @admin.register(ResidenceUser)
@@ -51,17 +52,19 @@ class ResidenceFlatAdmin(admin.ModelAdmin):
 
 @admin.register(Flat)
 class FlatAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('number', 'residence', 'type', 'info',)
+    list_filter = ('residence__type', 'type__name', 'residence__name')
 
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('number', 'user',)
 
 
 @admin.register(Application)
 class ApplicationAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('status', 'applicant', 'flat', 'created',)
+    list_filter = ('status', 'created',)
 
 
 admin.site.site_header = "myres.co.za backend-admin"

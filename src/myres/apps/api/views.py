@@ -3,7 +3,7 @@ from rest_framework import permissions, mixins, viewsets
 
 from myres.models import User, Residence, Student, Application, Flat, OrganizationResidence, OrganizationUser
 
-from .serializers import LoginSerializer, UserProfileSerializer, ResidenceSerializer, StudentSerializer,\
+from .serializers import LoginSerializer, UserProfileSerializer, ResidenceSerializer, StudentSerializer, \
                          ApplicationSerializer, FlatSerializer, OrganizationResidenceSerializer, \
                          OrganizationUserSerializer
 
@@ -60,7 +60,7 @@ class ResidenceView(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.G
 
     def get_queryset(self):
         residence = self.request.query_params.get('residence', None)
-        return Residence.objects.filter(residence=residence)
+        return Residence.objects.filter(id=residence)
 
 
 class StudentView(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):

@@ -183,7 +183,7 @@ class Student(TimeStampedModel):
 
 class Application(TimeStampedModel):
     """
-    Model to specify an Application.
+    Model to specify an Application to a Residence.
     """
     STATUS = Choices("NEW", "REVIEW", "APPROVED", "DECLINED", "DELETED")
 
@@ -197,4 +197,4 @@ class Application(TimeStampedModel):
         get_latest_by = 'created'
 
     def __str__(self):
-        return '{} {}'.format(self.flat.number, self.applicant.name)
+        return '{} {}'.format(self.flat.number, self.applicant.user.name)
