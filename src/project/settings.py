@@ -81,6 +81,11 @@ REST_AUTH_SERIALIZERS = {
     'LOGIN_SERIALIZER': 'myres.apps.api.serializers.LoginSerializer'
 }
 
+#drf-jwt
+JWT_AUTH = {
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'myres.apps.api.utils.login_response_payload_handler',
+}
+
 ROOT_URLCONF = 'myres.urls'
 
 TEMPLATES = [

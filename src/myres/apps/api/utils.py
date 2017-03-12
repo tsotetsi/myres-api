@@ -1,7 +1,7 @@
 from myres.apps.api.serializers import UserProfileSerializer
 
 
-def login_response_handler(token, user=None, request=None):
+def login_response_payload_handler(token, user=None, request=None):
     """
     Returns the response data for both the login and refresh views.
     """
