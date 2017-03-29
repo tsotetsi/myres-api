@@ -1,16 +1,16 @@
 from django.contrib import admin
 
 from myres.models import User, FlatType, ResidenceType, Residence, ResidenceUser, Flat, ResidenceFlat, Student, \
-                         Application
-
-
-@admin.register(User)
-class UserAdmin(admin.ModelAdmin):
-    pass
+                         Application, Organization, OrganizationResidence, OrganizationUser
 
 
 @admin.register(FlatType)
 class FlatTypeAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(User)
+class UserAdmin(admin.ModelAdmin):
     pass
 
 
@@ -19,9 +19,25 @@ class ResidenceTypeAdmin(admin.ModelAdmin):
     pass
 
 
+@admin.register(Organization)
+class OrganizationAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(OrganizationResidence)
+class OrganizationResidenceAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(OrganizationUser)
+class OrganizationUserAdmin(admin.ModelAdmin):
+    pass
+
+
 @admin.register(Residence)
 class ResidenceAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('name', 'type', 'capacity', 'email', 'phone_number',)
+    list_filter = ('type',)
 
 
 @admin.register(ResidenceUser)
@@ -36,17 +52,19 @@ class ResidenceFlatAdmin(admin.ModelAdmin):
 
 @admin.register(Flat)
 class FlatAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('number', 'residence', 'type', 'info',)
+    list_filter = ('residence__type', 'type__name', 'residence__name')
 
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('number', 'user',)
 
 
 @admin.register(Application)
 class ApplicationAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('status', 'applicant', 'flat', 'created',)
+    list_filter = ('status', 'created',)
 
 
 admin.site.site_header = "myres.co.za backend-admin"

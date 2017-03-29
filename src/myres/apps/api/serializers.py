@@ -6,7 +6,8 @@ from rest_framework import serializers
 from allauth.account.adapter import get_adapter, email_address_exists
 
 from myres.validators import E164Validator
-from myres.models import User, Flat, Application, Residence, ResidenceUser, Student
+from myres.models import User, Flat, Application, Residence, ResidenceUser, Student, OrganizationResidence, \
+                         OrganizationUser, FlatType
 
 
 class LoginSerializer(JSONWebTokenSerializer):
@@ -77,6 +78,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'email', 'name', 'surname', 'gender', 'mobile_number')
+        read_only_fields = ('id',)
 
 
 class ResidenceSerializer(serializers.ModelSerializer):
@@ -93,6 +95,20 @@ class ResidenceUserSerializer(serializers.ModelSerializer):
         fields = ('user', 'residence')
 
 
+class OrganizationResidenceSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = OrganizationResidence
+        fields = ('organization', 'residence')
+
+
+class OrganizationUserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = OrganizationUser
+        fields = ('user', 'organization')
+
+
 class StudentSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -100,14 +116,24 @@ class StudentSerializer(serializers.ModelSerializer):
         fields = ('user', 'number')
 
 
+class FlatTypeSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = FlatType
+        fields = ('id', 'name', 'description')
+
+
 class FlatSerializer(serializers.ModelSerializer):
+    residence = ResidenceSerializer(read_only=True)
+    type = FlatTypeSerializer(read_only=True)
 
     class Meta:
         model = Flat
-        fields = ('residence', 'number', 'type', 'info')
+        fields = ('residence', 'number', 'type', 'info', 'type')
 
 
 class ApplicationSerializer(serializers.Serializer):
+    residence = ResidenceSerializer(read_only=True)
     full_name = serializers.ReadOnlyField(source='applicant.user.get_full_name')
     gender = serializers.ReadOnlyField(source='applicant.user.gender')
     residence = serializers.ReadOnlyField(source='applicant.user.__residence')
@@ -123,4 +149,4 @@ class UserDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'name', 'surname', 'gender', 'mobile_number')
-        read_only_fields = ('email', )
+        read_only_fields = ('email', 'id',)

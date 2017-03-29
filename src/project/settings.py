@@ -83,6 +83,11 @@ REST_AUTH_SERIALIZERS = {
     'LOGIN_SERIALIZER': 'myres.apps.api.serializers.LoginSerializer'
 }
 
+#drf-jwt
+JWT_AUTH = {
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'myres.apps.api.utils.login_response_payload_handler',
+}
+
 # CORS-HEADERS Settings
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -123,7 +128,7 @@ DATABASES = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Johannesburg'
 
 USE_I18N = False
 
@@ -136,3 +141,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LOGIN_REDIRECT_URL = '/api/'
