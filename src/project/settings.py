@@ -25,6 +25,7 @@ INSTALLED_APPS = (
     'rest_framework.authtoken',
     'rest_framework_jwt',
     'rest_auth',
+    'corsheaders',
 
     'allauth',
     'allauth.account',
@@ -42,6 +43,7 @@ INSTALLED_APPS = (
 AUTH_USER_MODEL = 'myres.User'
 
 MIDDLEWARE_CLASSES = (
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -80,6 +82,9 @@ REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'myres.apps.api.serializers.UserDetailsSerializer',
     'LOGIN_SERIALIZER': 'myres.apps.api.serializers.LoginSerializer'
 }
+
+# CORS-HEADERS Settings
+CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'myres.urls'
 

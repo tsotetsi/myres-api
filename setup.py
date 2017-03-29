@@ -16,6 +16,7 @@ setup(
         'django-authtools',
         'django-model-utils',
         'django-enumfields',
+        'django-cors-headers',
     ],
     package_dir={'': 'src'},
     packages=find_packages('src'),
