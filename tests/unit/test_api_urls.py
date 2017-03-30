@@ -11,7 +11,7 @@ URLS_API = [
 ]
 
 
-class APIURLSecureTestCase(TestCase):
+class APISecureURLTestCase(TestCase):
     def test_secure_api_urls(self):
         for url in URLS_API:
             response = self.client.get(url)
