@@ -6,6 +6,8 @@ from model_utils import Choices
 from model_utils.models import TimeStampedModel
 from model_utils.fields import StatusField
 
+from myres.apps.api.enums import Gender
+
 from .validators import E164Validator
 
 
@@ -13,10 +15,14 @@ class User(AbstractEmailUser, TimeStampedModel):
     """
     Custom User model for myres app.
     """
+    GENDER = Choices(
+        ('MALE', 'Male'),
+        ('FEMALE', 'Female')
+    )
     id = models.UUIDField(primary_key=True, default=uuid4)
     name = models.CharField(max_length=100)
     surname = models.CharField(max_length=100)
-    gender = models.CharField(max_length=32, null=True)
+    gender = models.CharField(max_length=32, choices=GENDER)
     mobile_number = models.CharField(max_length=16, validators=[E164Validator])
 
     USERNAME_FIELD = 'email'

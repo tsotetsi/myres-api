@@ -5,8 +5,9 @@ from rest_framework import serializers
 
 from allauth.account.adapter import get_adapter, email_address_exists
 
-from .fields import EnumField
-from myres.enums import Gender
+from .enums import Gender
+from .fields import ChoiceField
+
 from myres.validators import E164Validator
 from myres.models import User, Flat, Application, Residence, ResidenceUser, Student, OrganizationResidence, \
                          OrganizationUser, FlatType
@@ -26,7 +27,7 @@ class RegisterSerializer(serializers.Serializer):
     surname = serializers.CharField(max_length=100)
     mobile_number = serializers.CharField(max_length=16, validators=[E164Validator])
     email = serializers.EmailField(required=True)
-    gender = serializers.CharField(max_length=32)
+    gender = ChoiceField(choices=Gender.choices)
     password1 = serializers.CharField(write_only=True, style={'input_type': 'password'})
     password2 = serializers.CharField(write_only=True, style={'input_type': 'password'})
 

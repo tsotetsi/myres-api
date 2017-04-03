@@ -67,4 +67,4 @@ class ApplicationAdmin(admin.ModelAdmin):
     list_filter = ('status', 'created',)
 
 
-admin.site.site_header = "myres.co.za backend-admin"
+#admin.site.site_header = "myres.co.za backend-admin"
