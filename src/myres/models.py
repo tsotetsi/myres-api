@@ -5,9 +5,7 @@ from authtools.models import AbstractEmailUser
 from model_utils import Choices
 from model_utils.models import TimeStampedModel
 from model_utils.fields import StatusField
-from enumfields import EnumField
 
-from .enums import Gender
 from .validators import E164Validator
 
 
@@ -18,7 +16,7 @@ class User(AbstractEmailUser, TimeStampedModel):
     id = models.UUIDField(primary_key=True, default=uuid4)
     name = models.CharField(max_length=100)
     surname = models.CharField(max_length=100)
-    gender = EnumField(Gender, max_length=12, null=True)
+    gender = models.CharField(max_length=32, null=True)
     mobile_number = models.CharField(max_length=16, validators=[E164Validator])
 
     USERNAME_FIELD = 'email'

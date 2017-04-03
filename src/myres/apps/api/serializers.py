@@ -5,6 +5,8 @@ from rest_framework import serializers
 
 from allauth.account.adapter import get_adapter, email_address_exists
 
+from .fields import EnumField
+from myres.enums import Gender
 from myres.validators import E164Validator
 from myres.models import User, Flat, Application, Residence, ResidenceUser, Student, OrganizationResidence, \
                          OrganizationUser, FlatType
@@ -20,15 +22,11 @@ class LoginSerializer(JSONWebTokenSerializer):
 
 
 class RegisterSerializer(serializers.Serializer):
-    GENDER_CHOICES = (
-        ('1', 'Male'),
-        ('2', 'Female'),
-    )
     name = serializers.CharField(max_length=100)
     surname = serializers.CharField(max_length=100)
     mobile_number = serializers.CharField(max_length=16, validators=[E164Validator])
     email = serializers.EmailField(required=True)
-    gender = serializers.ChoiceField(required=True, choices=GENDER_CHOICES)
+    gender = serializers.CharField(max_length=32)
     password1 = serializers.CharField(write_only=True, style={'input_type': 'password'})
     password2 = serializers.CharField(write_only=True, style={'input_type': 'password'})
 
