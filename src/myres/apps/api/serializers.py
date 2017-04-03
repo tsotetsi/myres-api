@@ -135,12 +135,11 @@ class ApplicationSerializer(serializers.Serializer):
     residence = ResidenceSerializer(read_only=True)
     full_name = serializers.ReadOnlyField(source='applicant.user.get_full_name')
     gender = serializers.ReadOnlyField(source='applicant.user.gender')
-    residence = serializers.ReadOnlyField(source='applicant.user.__residence')
     flat = serializers.CharField(max_length=10, required=True)
 
     class Meta:
         model = Application
-        fields = ('flat', 'applicant', 'status', 'residence')
+        fields = ('flat', 'applicant', 'gender', 'full_name', 'status', 'residence')
 
 
 class UserDetailsSerializer(serializers.ModelSerializer):
