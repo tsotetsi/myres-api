@@ -5,9 +5,9 @@ from myres import models
 
 class UserFactory(factory.DjangoModelFactory):
 
-    name = factory.Sequence(lambda n: "Name %03d" % n)
-    surname = factory.Sequence(lambda n: "Surname %03d" % n)
-    mobile_number = factory.Sequence(lambda n: "+2783123456%d" % n)
+    name = factory.Sequence(lambda n: "Name %d" % n)
+    surname = factory.Sequence(lambda n: "Surname %d" % n)
+    mobile_number = factory.Sequence(lambda n: "+2783000000%d" % n)
 
     class Meta:
         model = models.User
