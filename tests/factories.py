@@ -1,7 +1,8 @@
-import factory
-import factory.fuzzy
+import factory, factory.fuzzy
 from faker import Factory as FakerFactory
 from random import random
+
+from django.contrib.auth.hashers import make_password
 
 from myres import models
 
@@ -15,10 +16,12 @@ class UserFactory(factory.DjangoModelFactory):
     mobile_number = factory.Sequence(lambda n: "+2783000000%d" % n)
     email = factory.LazyAttribute(lambda o: '%s@university.ac.za' % o.name)
     gender = random.choices['MALE', 'FEMALE']
+    _PASSWORD = 'pass1@Capital'
+    password = make_password(_PASSWORD)
 
     class Meta:
         model = models.User
-        django_get_or_create = ('name', 'surname', 'gender', 'mobile_number')
+        django_get_or_create = ('email',)
 
 
 class FlatTypeFactory(factory.DjangoModelFactory):
