@@ -21,3 +21,18 @@ class RegistrationTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         # test that an activation get sent to student
         self.assertEqual(len(mail.outbox), 1)
+
+    def test_registration_with_invalid_password(self):
+        # registering with invalid password should raise an error.
+        pass
+
+    def test_registration_with_invalid_mobile_number(self):
+        # registering with invalid mobile number should raise an error.
+        pass
+
+    def test_registration_with_invalid_gender_choice(self):
+        # registering with invalid gender choice should raise an error.
+        pass
+
+    def test_registration_activation_token_link(self):
+        pass
