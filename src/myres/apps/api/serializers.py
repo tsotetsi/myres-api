@@ -149,7 +149,7 @@ class FlatSerializer(serializers.ModelSerializer):
 
 
 class ApplicationSerializer(serializers.Serializer):
-    residence = ResidenceSerializer(read_only=True)
+    residence = serializers.PrimaryKeyRelatedField(queryset=Residence.objects.all())
     full_name = serializers.ReadOnlyField(source='applicant.user.get_full_name')
     gender = serializers.ReadOnlyField(source='applicant.user.gender')
     flat = serializers.PrimaryKeyRelatedField(queryset=Flat.objects.all())  # Todo: Filter flats related to residence.
@@ -157,6 +157,17 @@ class ApplicationSerializer(serializers.Serializer):
     class Meta:
         model = Application
         fields = ('flat', 'applicant', 'gender', 'full_name', 'status', 'residence')
+
+    def create(self, validated_data):
+        user = self.context['request'].user
+        residence = validated_data['residence']
+        student = Student.objects.filter(user=user, residence=residence).first()
+        Application.objects.create(
+            flat=self.validated_data['flat'],
+            applicant=student,
+            residence=self.validated_data['residence']
+        )
+        return super(ApplicationSerializer, self).create(validated_data)
 
 
 class UserDetailsSerializer(serializers.ModelSerializer):
