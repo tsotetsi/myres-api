@@ -23,6 +23,7 @@ class LoginSerializer(JSONWebTokenSerializer):
 
 
 class RegisterSerializer(serializers.Serializer):
+    residence = serializers.PrimaryKeyRelatedField(queryset=Residence.objects.all())  # TODO: Filter(org) and validate.
     name = serializers.CharField(max_length=100)
     surname = serializers.CharField(max_length=100)
     mobile_number = serializers.CharField(max_length=16, validators=[E164Validator])
@@ -54,11 +55,12 @@ class RegisterSerializer(serializers.Serializer):
 
     def get_cleaned_data(self):
         return {
-            'name': self.validated_data.get('name', ''),
-            'surname': self.validated_data.get('surname', ''),
-            'mobile_number': self.validated_data.get('mobile_number', ''),
-            'email': self.validated_data.get('email', ''),
-            'password': self.validated_data.get('password1')
+            'residence': self.validated_data['residence'],
+            'name': self.validated_data['name'],
+            'surname': self.validated_data['surname'],
+            'mobile_number': self.validated_data['mobile_number'],
+            'email': self.validated_data['email'],
+            'password': self.validated_data['password1']
         }
 
     def save(self, request):
@@ -69,7 +71,22 @@ class RegisterSerializer(serializers.Serializer):
         self.custom_signup(request, user)
         setup_user_email(request, user, [])
         user.save()
+
+        # Create student-residence-user relationship.
+        self.set_student_instance(user=user, residence=self.cleaned_data['residence'])
         return user
+
+    def set_student_instance(self, user=None, residence=None):
+        Student.objects.create(user=user,
+                               residence=residence,
+                               number=self.extract_student_number(user.email))
+
+    @staticmethod
+    def extract_student_number(email):
+        # Create student number from email address.
+        # This assumes the following
+        # format: student_number/id@myuniversity.ac.za.
+        return email.split('@')[0]
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
