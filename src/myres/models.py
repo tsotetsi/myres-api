@@ -150,7 +150,7 @@ class Flat(TimeStampedModel):
     info = models.TextField(verbose_name="Additional [optional] information")
 
     def __str__(self):
-        return '{} at {}'.format(self.number, self.residence.name)
+        return '{} of type {}'.format(self.number, self.type.name)
 
 
 class ResidenceFlat(models.Model):
