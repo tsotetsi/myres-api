@@ -58,7 +58,7 @@ class FlatAdmin(admin.ModelAdmin):
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ('number', 'user',)
+    list_display = ('number', 'user', 'residence',)
 
 
 @admin.register(Application)

@@ -176,6 +176,7 @@ class Student(TimeStampedModel):
     """
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     number = models.CharField(verbose_name="Student Number", max_length=54)
+    residence = models.ForeignKey(Residence, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.number
