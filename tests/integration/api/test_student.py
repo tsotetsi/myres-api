@@ -1,0 +1,2 @@
+class TestApplicationTestCase:
+    pass

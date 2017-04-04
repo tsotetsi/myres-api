@@ -1,6 +1,5 @@
 psycopg2
 pytest
-beautifulsoup4
 pytest-cov
 pytest-django
 factory_boy

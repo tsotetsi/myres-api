@@ -13,21 +13,37 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
-# Application definition
+# Application definition.
 
 INSTALLED_APPS = (
     'myres',
     'project',
+    'myres.apps.api',
+
+    'authtools',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'rest_framework_jwt',
+    'rest_auth',
+    'corsheaders',
+
+    'allauth',
+    'allauth.account',
+    'rest_auth.registration',
+
     'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.sites',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
 )
 
+AUTH_USER_MODEL = 'myres.User'
+
 MIDDLEWARE_CLASSES = (
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -38,7 +54,44 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.security.SecurityMiddleware',
 )
 
-ROOT_URLCONF = 'project.urls'
+# djangorestframework.
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    ),
+}
+
+REST_USE_JWT = True
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+
+# django-rest-auth serializer has a username field. User custom serializer.
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'myres.apps.api.serializers.RegisterSerializer',
+}
+
+# django-rest-auth serializer has a username field. User custom serializer.
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'myres.apps.api.serializers.UserDetailsSerializer',
+    'LOGIN_SERIALIZER': 'myres.apps.api.serializers.LoginSerializer'
+}
+
+#drf-jwt
+JWT_AUTH = {
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'myres.apps.api.utils.login_response_payload_handler',
+}
+
+# CORS-HEADERS Settings
+CORS_ORIGIN_ALLOW_ALL = True
+
+ROOT_URLCONF = 'myres.urls'
 
 TEMPLATES = [
     {
@@ -75,7 +128,7 @@ DATABASES = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Johannesburg'
 
 USE_I18N = False
 
@@ -88,3 +141,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LOGIN_REDIRECT_URL = '/api/'
