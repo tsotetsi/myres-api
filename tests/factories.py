@@ -11,12 +11,12 @@ faker = FakerFactory.create()
 
 class UserFactory(factory.DjangoModelFactory):
 
-    name = factory.Sequence(lambda n: "Name %d" % n)
-    surname = factory.Sequence(lambda n: "Surname %d" % n)
+    name = faker.first_name()
+    surname = faker.last_name()
     mobile_number = factory.Sequence(lambda n: "+2783000000%d" % n)
-    email = factory.LazyAttribute(lambda o: '%s@university.ac.za' % o.name)
+    email = faker.email()
     gender = random.choice(['MALE', 'FEMALE'])
-    _PASSWORD = 'pass1@Capital'
+    _PASSWORD = faker.password()
     password = make_password(_PASSWORD)
 
     class Meta:
@@ -26,7 +26,7 @@ class UserFactory(factory.DjangoModelFactory):
 
 class FlatTypeFactory(factory.DjangoModelFactory):
     name = factory.Sequence(lambda n: "Flat type %d" % n)
-    description = factory.LazyAttribute(lambda x: faker.sentence(nb_words=6))
+    description = faker.sentence()
 
     class Meta:
         model = models.FlatType
@@ -34,7 +34,7 @@ class FlatTypeFactory(factory.DjangoModelFactory):
 
 class ResidenceTypeFactory(factory.DjangoModelFactory):
     name = factory.Sequence(lambda n: "Residence type %d" % n)
-    description = factory.LazyAttribute(lambda x: faker.sentence(nb_words=6))
+    description = faker.sentence()
 
     class Meta:
         model = models.ResidenceType
