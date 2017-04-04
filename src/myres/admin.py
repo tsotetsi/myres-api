@@ -52,8 +52,8 @@ class ResidenceFlatAdmin(admin.ModelAdmin):
 
 @admin.register(Flat)
 class FlatAdmin(admin.ModelAdmin):
-    list_display = ('number', 'residence', 'type', 'info',)
-    list_filter = ('residence__type', 'type__name', 'residence__name')
+    list_display = ('number', 'type', 'info',)
+    list_filter = ('type__name',)
 
 
 @admin.register(Student)

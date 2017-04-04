@@ -145,7 +145,6 @@ class Flat(TimeStampedModel):
     """
     Model to specify a Flat.
     """
-    residence = models.ForeignKey(Residence, on_delete=models.CASCADE)
     number = models.CharField(max_length=10, unique=True)
     type = models.ForeignKey(FlatType, on_delete=models.CASCADE)
     info = models.TextField(verbose_name="Additional [optional] information")
