@@ -3,12 +3,16 @@ from django.core import mail
 from rest_framework.test import APITestCase
 from rest_framework import status
 
+from tests import factories
+
 
 class RegistrationTestCase(APITestCase):
     url = 'http://localhost:8000/api/rest-auth/registration/'
 
     def test_registration(self):
+        residence = factories.ResidenceFactory()
         data = {
+            'residence': residence.id,
             'name': 'John',
             'surname': 'Doe',
             'mobile_number': '+27835504933',
