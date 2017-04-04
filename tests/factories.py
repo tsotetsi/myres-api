@@ -1,6 +1,6 @@
 import factory, factory.fuzzy
 from faker import Factory as FakerFactory
-from random import random
+import random
 
 from django.contrib.auth.hashers import make_password
 
@@ -15,7 +15,7 @@ class UserFactory(factory.DjangoModelFactory):
     surname = factory.Sequence(lambda n: "Surname %d" % n)
     mobile_number = factory.Sequence(lambda n: "+2783000000%d" % n)
     email = factory.LazyAttribute(lambda o: '%s@university.ac.za' % o.name)
-    gender = random.choices['MALE', 'FEMALE']
+    gender = random.choice(['MALE', 'FEMALE'])
     _PASSWORD = 'pass1@Capital'
     password = make_password(_PASSWORD)
 
@@ -45,7 +45,7 @@ class ResidenceFactory(factory.DjangoModelFactory):
     email = factory.LazyAttribute(lambda o: '%s@university.ac.za' % o.name.strip(''))
     type = factory.SubFactory(ResidenceTypeFactory)
     capacity = factory.fuzzy.FuzzyInteger(100, 400)
-    address = faker('address')
+    address = faker.address()
     phone_number = factory.Sequence(lambda n: "+2721000000%d" % n)
 
     class Meta:
@@ -61,7 +61,6 @@ class ResidenceUserFactory(factory.DjangoModelFactory):
 
 
 class FlatFactory(factory.DjangoModelFactory):
-    residence = factory.SubFactory(ResidenceFlatFactory)
     number = factory.sequence(lambda s: "10%dA" % s)
     type = factory.SubFactory(FlatTypeFactory)
     info = factory.LazyAttribute(lambda s: faker.sentence(nb_words=6))
@@ -89,7 +88,7 @@ class StudentFactory(factory.DjangoModelFactory):
 class ApplicationFactory(factory.DjangoModelFactory):
     flat = factory.SubFactory(FlatFactory)
     applicant = factory.SubFactory(UserFactory)
-    status = random.choices["NEW", "REVIEW"]
+    status = random.choice(["NEW", "REVIEW"])
     residence = factory.SubFactory(ResidenceFactory)
 
     class Meta:
