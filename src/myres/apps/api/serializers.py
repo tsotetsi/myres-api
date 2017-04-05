@@ -77,7 +77,7 @@ class RegisterSerializer(serializers.Serializer):
         user.save()
 
         # Create student-residence-user relationship.
-        self.create_student_(user=user, residence=self.cleaned_data['residence'])
+        self.create_student(user=user, residence=self.cleaned_data['residence'])
         return user
 
     def create_student(self, user=None, residence=None):
