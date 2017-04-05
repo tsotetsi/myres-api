@@ -77,10 +77,10 @@ class RegisterSerializer(serializers.Serializer):
         user.save()
 
         # Create student-residence-user relationship.
-        self.set_student_instance(user=user, residence=self.cleaned_data['residence'])
+        self.create_student_(user=user, residence=self.cleaned_data['residence'])
         return user
 
-    def set_student_instance(self, user=None, residence=None):
+    def create_student(self, user=None, residence=None):
         Student.objects.create(user=user,
                                residence=residence,
                                number=self.extract_student_number(user.email))
@@ -164,14 +164,14 @@ class ApplicationSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         user = self.context['request'].user
-        residence = validated_data['residence']
+        residence = Residence.objects.get(id=validated_data['residence'].id)
         student = Student.objects.filter(user=user, residence=residence).first()
-        Application.objects.create(
+        application = Application.objects.create(
             flat=self.validated_data['flat'],
             applicant=student,
-            residence=self.validated_data['residence']
+            residence=residence
         )
-        return super(ApplicationSerializer, self).create(validated_data)
+        return application
 
 
 class UserDetailsSerializer(serializers.ModelSerializer):

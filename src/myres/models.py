@@ -190,7 +190,7 @@ class Application(TimeStampedModel):
     flat = models.ForeignKey(Flat, on_delete=models.CASCADE)
     applicant = models.OneToOneField(Student)
     status = StatusField(default=STATUS.NEW)
-    residence = models.ManyToManyField(Residence)
+    residence = models.ForeignKey(Residence, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['created', 'flat', 'status']
