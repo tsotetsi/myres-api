@@ -70,6 +70,10 @@ class RegisterSerializer(serializers.Serializer):
         adapter.save_user(request, user, self)
         self.custom_signup(request, user)
         setup_user_email(request, user, [])
+
+        # Auth will fail because passwords were not hashed correctly registration.
+        # Login expects hashed passwords to have 'pbkdf2_sha256$30000' prefix.
+        user.set_password(self.cleaned_data['password'])
         user.save()
 
         # Create student-residence-user relationship.
