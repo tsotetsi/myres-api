@@ -47,7 +47,8 @@ class ResidenceUserAdmin(admin.ModelAdmin):
 
 @admin.register(ResidenceFlat)
 class ResidenceFlatAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('residence', 'flat',)
+    list_filter = ('residence__name',)
 
 
 @admin.register(Flat)
