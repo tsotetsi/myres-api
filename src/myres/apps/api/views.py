@@ -53,7 +53,7 @@ class OrganizationResidenceView(mixins.ListModelMixin, mixins.RetrieveModelMixin
     """
     View to display Organization Residences.
     """
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.AllowAny,)
     serializer_class = OrganizationResidenceSerializer
 
     def get_queryset(self):

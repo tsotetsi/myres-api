@@ -105,7 +105,7 @@ class ResidenceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Residence
-        fields = ('name', 'email', 'type', 'capacity', 'address', 'phone_number')
+        fields = ('id', 'name', 'email', 'type', 'capacity', 'address', 'phone_number')
 
 
 class ResidenceUserSerializer(serializers.ModelSerializer):
@@ -124,6 +124,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
 
 class OrganizationResidenceSerializer(serializers.ModelSerializer):
     organization = OrganizationSerializer()
+    residence = ResidenceSerializer()
 
     class Meta:
         model = OrganizationResidence
