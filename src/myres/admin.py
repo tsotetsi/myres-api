@@ -21,12 +21,13 @@ class ResidenceTypeAdmin(admin.ModelAdmin):
 
 @admin.register(Organization)
 class OrganizationAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('name', 'email', 'address', 'phone_number',)
 
 
 @admin.register(OrganizationResidence)
 class OrganizationResidenceAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('organization', 'residence',)
+    list_filter = ('organization__name',)
 
 
 @admin.register(OrganizationUser)

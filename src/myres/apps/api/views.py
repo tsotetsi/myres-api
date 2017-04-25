@@ -1,11 +1,12 @@
 from rest_framework_jwt.views import JSONWebTokenAPIView
 from rest_framework import permissions, mixins, viewsets
 
-from myres.models import User, Residence, Student, Application, Flat, OrganizationResidence, OrganizationUser
+from myres.models import User, Residence, Student, Application, Flat, OrganizationResidence, OrganizationUser, \
+                         Organization
 
 from .serializers import LoginSerializer, UserProfileSerializer, ResidenceSerializer, StudentSerializer, \
                          ApplicationSerializer, FlatSerializer, OrganizationResidenceSerializer, \
-                         OrganizationUserSerializer
+                         OrganizationUserSerializer, OrganizationSerializer
 
 
 class LoginView(JSONWebTokenAPIView):
@@ -20,11 +21,20 @@ class UserView(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.Generi
     """
     View to display User profile.
     """
-    permission_classes = (permissions.IsAuthenticated, )
+    permission_classes = (permissions.IsAuthenticated,)
     serializer_class = UserProfileSerializer
 
     def get_queryset(self):
         return User.objects.all()
+
+
+class OrganizationView(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+    """
+    View ti display an Organization.
+    """
+    permission_classes = (permissions.AllowAny,)
+    serializer_class = OrganizationSerializer
+    queryset = Organization.objects.all()
 
 
 class OrganizationUserView(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
@@ -41,14 +51,14 @@ class OrganizationUserView(mixins.ListModelMixin, mixins.RetrieveModelMixin, vie
 
 class OrganizationResidenceView(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     """
-    View to display Organization Residence.
+    View to display Organization Residences.
     """
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = OrganizationResidenceSerializer
 
     def get_queryset(self):
-        residence = self.request.query_params.get('residence', None)
-        return OrganizationResidence.objects.filter(residence=residence)
+        organization = self.request.query_params.get('organization', None)
+        return OrganizationResidence.objects.filter(organization=organization)
 
 
 class ResidenceView(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):

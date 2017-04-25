@@ -10,7 +10,7 @@ from .fields import ChoiceField
 
 from myres.validators import E164Validator
 from myres.models import User, Flat, Application, Residence, ResidenceUser, Student, OrganizationResidence, \
-                         OrganizationUser, FlatType
+                         OrganizationUser, FlatType, Organization
 
 
 class LoginSerializer(JSONWebTokenSerializer):
@@ -115,7 +115,15 @@ class ResidenceUserSerializer(serializers.ModelSerializer):
         fields = ('user', 'residence')
 
 
+class OrganizationSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Organization
+        exclude = ('modified',)
+
+
 class OrganizationResidenceSerializer(serializers.ModelSerializer):
+    organization = OrganizationSerializer()
 
     class Meta:
         model = OrganizationResidence
