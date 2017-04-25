@@ -147,10 +147,10 @@ class Flat(TimeStampedModel):
     """
     number = models.CharField(max_length=10, unique=True)
     type = models.ForeignKey(FlatType, on_delete=models.CASCADE)
-    info = models.TextField(verbose_name="Additional [optional] information")
+    info = models.TextField(verbose_name="Additional [optional] information", blank=True)
 
     def __str__(self):
-        return '{} of type {}'.format(self.number, self.type.name)
+        return self.number
 
 
 class ResidenceFlat(models.Model):

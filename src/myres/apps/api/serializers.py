@@ -71,7 +71,7 @@ class RegisterSerializer(serializers.Serializer):
         self.custom_signup(request, user)
         setup_user_email(request, user, [])
 
-        # Auth will fail because passwords were not hashed correctly registration.
+        # Auth will fail because passwords were not hashed correctly during registration.
         # Login expects hashed passwords to have 'pbkdf2_sha256$30000' prefix.
         user.set_password(self.cleaned_data['password'])
         user.save()
