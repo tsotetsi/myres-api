@@ -133,6 +133,7 @@ class ResidenceUser(TimeStampedModel):
     """
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     residence = models.ForeignKey(Residence, on_delete=models.CASCADE)
+    is_authorised = models.BooleanField(default=False)
 
     class Meta:
         unique_together = (('user', 'residence'),)
@@ -193,6 +194,7 @@ class Application(TimeStampedModel):
     residence = models.ForeignKey(Residence, on_delete=models.CASCADE)
 
     class Meta:
+        unique_together = ('flat', 'applicant', 'residence')
         ordering = ['created', 'flat', 'status']
         get_latest_by = 'created'
 
