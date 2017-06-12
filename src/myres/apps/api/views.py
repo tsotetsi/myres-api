@@ -89,7 +89,7 @@ class ApplicationView(mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.C
     """
     View to display Applications.
     """
-    permission_classes = (permissions.IsAuthenticated, )
+    permission_classes = (permissions.IsAuthenticated,)
     serializer_class = ApplicationSerializer
 
     def get_queryset(self):
