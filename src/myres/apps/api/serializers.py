@@ -1,9 +1,8 @@
 from allauth.account.utils import setup_user_email
+from allauth.account.adapter import get_adapter, email_address_exists
 from django.utils.translation import ugettext_lazy as _
 from rest_framework_jwt.serializers import JSONWebTokenSerializer
 from rest_framework import serializers
-
-from allauth.account.adapter import get_adapter, email_address_exists
 
 from .enums import Gender
 from .fields import ChoiceField
